@@ -90,8 +90,6 @@ bool_t AppReadTemp(int16_t *pTemp)
   while (lis2dh12.available() == false) ;
 
   *pTemp = lis2dh12.getTemperature();
-  SERIAL_PORT.println(*pTemp, BIN);
-  SERIAL_PORT.println(*pTemp, HEX);
   SERIAL_PORT.println( ( ( (float)*pTemp / 64.0f ) / 4.0f ) + 25.0f);
   return TRUE;
 }

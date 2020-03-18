@@ -53,3 +53,6 @@ dkms.conf
 
 
 app/flutter
+.DS_Store
+.pub-cache/
+app/.DS_Store

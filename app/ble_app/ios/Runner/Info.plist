@@ -41,7 +41,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-        <key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Bluetooth will be used.</string>
 </dict>
 </plist>
