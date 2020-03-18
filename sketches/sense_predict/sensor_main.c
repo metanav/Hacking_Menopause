@@ -466,17 +466,17 @@ static void sensorProcMsg(wsfMsgHdr_t *pMsg)
 *  \return None.
 */
 /*************************************************************************************************/
-bool_t AppReadGyro(int16_t *pX, int16_t *pY, int16_t *pZ)
-{
-  static int16_t x = -100;
-  static int16_t y = 0;
-  static int16_t z = 100;
-  *pX = x++;
-  *pY = y++;
-  *pZ = z++;
-
-  return TRUE;
-}
+//bool_t AppReadGyro(int16_t *pX, int16_t *pY, int16_t *pZ)
+//{
+//  static int16_t x = -100;
+//  static int16_t y = 0;
+//  static int16_t z = 100;
+//  *pX = x++;
+//  *pY = y++;
+//  *pZ = z++;
+//
+//  return TRUE;
+//}
 
 /*************************************************************************************************/
 /*!
@@ -489,12 +489,12 @@ bool_t AppReadGyro(int16_t *pX, int16_t *pY, int16_t *pZ)
 *  \return None.
 */
 /*************************************************************************************************/
-bool_t AppReadTemp(int16_t *pTemp)
-{
-  static int16_t temp = 0;
-  *pTemp = temp++;
-  return TRUE;
-}
+//bool_t AppReadTemp(int16_t *pTemp)
+//{
+//  static int16_t temp = 0;
+//  *pTemp = temp++;
+//  return TRUE;
+//}
 #endif
 
 /*************************************************************************************************/
