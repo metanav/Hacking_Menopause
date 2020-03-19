@@ -4,20 +4,38 @@ import 'package:weather_icons/weather_icons.dart';
 import 'string-extension.dart';
 
 class SensorState extends State<Sensor> {
-  double readings;
+  List<int> valueBytes;
 
   void initState() {
     super.initState();
-    readings = 0;
+    valueBytes = [];
     widget.readCharacteristic.value.listen((value) {
       setState(() {
-        readings =  (((value[1] << 8 ) | (value[0] & 0xff)) / 64.0 ) / 4.0 + 25.0;
+        valueBytes = value;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    String readings;
+    var icon;
+    var text;
+
+    if (widget.label == 'temperature') {
+      double tempC  = (((valueBytes[1] << 8 ) | (valueBytes[0] & 0xff)) / 64.0 ) / 4.0 + 25.0;
+      readings = '$tempC\u00B0 C';
+      icon     = BoxedIcon(WeatherIcons.thermometer, color: Colors.pinkAccent, size: 96.0);
+      text     = Text('$readings', style: TextStyle(fontSize: 48.0));
+    } else if (widget.label == 'accelerometer') {
+      double accelX = (((valueBytes[1] << 8 ) | (valueBytes[0] & 0xff)) / 16.0 ) + 1.0;
+      double accelY = (((valueBytes[3] << 8 ) | (valueBytes[2] & 0xff)) / 16.0 ) + 1.0;
+      double accelZ = (((valueBytes[5] << 8 ) | (valueBytes[4] & 0xff)) / 16.0 ) + 1.0;
+      readings = 'X: $accelX Y: $accelY Z: $accelZ';
+      icon     = Icon(Icons.directions_run, color: Colors.pinkAccent, size: 96.0);
+      text     = Text('$readings', style: TextStyle(fontSize: 24.0));
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.label.toString().capitalize()),
@@ -28,14 +46,10 @@ class SensorState extends State<Sensor> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(
-                child: BoxedIcon(
-                  WeatherIcons.thermometer,
-                  color: Colors.pinkAccent,
-                  size: 96.0,
-                  )
+                child: icon
               ),
               Center(
-                child: Text('$readings\u00B0 C', style: TextStyle(fontSize: 48.0),)
+                child: text
               )
             ]
           )

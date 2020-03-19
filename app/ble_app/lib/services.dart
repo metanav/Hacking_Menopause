@@ -82,7 +82,7 @@ class Services extends StatefulWidget {
     },
     'accelerometer': {
       'read'   : '00003001-0000-1000-8000-00805f9b34fb',
-      'config' : '00003002-0000-1000-8000-00805f9b34fb'
+      'config' : '00003003-0000-1000-8000-00805f9b34fb'
     },
   };
 
