@@ -7,6 +7,7 @@ class DevicesState extends State<Devices> {
   List<ScanResult> _discovered = <ScanResult>[];
   final TextStyle _biggerFont = TextStyle(fontSize: 18.0);
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  bool _connecting = false;
 
   Widget _buildDeviceList() {
     return ListView.builder(
@@ -32,6 +33,10 @@ class DevicesState extends State<Devices> {
 
   Future<void> _pushDevices(device) async {
     try {
+      setState(() {
+        _connecting = true;
+      });
+      
       await device.connect();
       List<BluetoothService> services = await device.discoverServices();
 
@@ -48,10 +53,31 @@ class DevicesState extends State<Devices> {
         duration: new Duration(seconds: 10),
       ));
     }
+
+    setState(() {
+      _connecting = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> widgets = [_buildDeviceList()];
+    var modal = new Stack(
+      children: [
+        new Opacity(
+          opacity: 0.3,
+          child: const ModalBarrier(dismissible: false, color: Colors.grey),
+        ),
+        new Center(
+          child: new CircularProgressIndicator(),
+        ),
+      ],
+    );
+
+    if (_connecting)  {
+      widgets.add(modal);
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -60,7 +86,7 @@ class DevicesState extends State<Devices> {
           IconButton(icon: Icon(Icons.scanner), onPressed: _scan),
         ],
       ),
-      body: _buildDeviceList(),
+      body: Stack(children: widgets)
     );
   }
 

@@ -1,9 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:weather_icons/weather_icons.dart';
-import 'dart:typed_data';
 import 'string-extension.dart';
 
 class SensorState extends State<Sensor> {
@@ -23,13 +20,14 @@ class SensorState extends State<Sensor> {
   Widget build(BuildContext context) {
     String readings;
     var icon;
-    var text = Text('...', style: TextStyle(fontSize: 18.0));
+    var text = Text('');
 
     if (valueBytes.length > 0) {
       if (widget.label == 'temperature') {
         double tempC =
-            (((valueBytes[1] << 8) | (valueBytes[0] & 0xff)).toSigned(16) / 64.0) / 4.0 +
-                25.0;
+            ((((valueBytes[1] << 8) | (valueBytes[0] & 0xff)).toSigned(16) / 64.0) / 4.0) + 25.0;
+        print(valueBytes);
+        print(tempC);
         readings = '$tempC\u00B0 C';
         icon = BoxedIcon(WeatherIcons.thermometer,
             color: Colors.pinkAccent, size: 96.0);
@@ -57,7 +55,10 @@ class SensorState extends State<Sensor> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [Center(child: icon), Center(child: text)])));
+                children: [
+                  Center(child: icon), 
+                  Center(child: text.data.length > 0 ? text : CircularProgressIndicator())
+                ])));
   }
 }
 
