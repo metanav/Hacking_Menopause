@@ -42,7 +42,11 @@ class SPARKFUN_LIS2DH12
     float getX(); //Return latest accel data. If data has already be read, initiate new read.
     float getY();
     float getZ();
+    int16_t getRawX();
+    int16_t getRawY();
+    int16_t getRawZ();
     float getTemperature(); //Returns latest temp data in C. If data is old, initiate new read.
+    int16_t getRawTemperature(); 
 
     void getAccelData(); //Load sensor data into global vars. Call after new data is avaiable.
     void getTempData();
@@ -64,9 +68,12 @@ class SPARKFUN_LIS2DH12
     float accelX;
     float accelY;
     float accelZ;
-    float temperatureC;
-    int16_t temp_16bit;
+    int16_t accelRawX;
+    int16_t accelRawY;
+    int16_t accelRawZ;
 
+    float temperatureC;
+    int16_t temperatureRawC;
 };
 
 #endif /* SparkFun_LIS2DH12_H */

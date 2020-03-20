@@ -130,6 +130,40 @@ float SPARKFUN_LIS2DH12::getZ()
   return (accelZ);
 }
 
+//Returns X accel of the raw accel data
+int16_t SPARKFUN_LIS2DH12::getRawX()
+{
+  if (xIsFresh == false)
+  {
+    getAccelData();
+  }
+  xIsFresh = false;
+  return (accelRawX);
+}
+
+//Returns Y accel of the raw accel data
+int16_t SPARKFUN_LIS2DH12::getRawY()
+{
+  if (yIsFresh == false)
+  {
+    getAccelData();
+  }
+  yIsFresh = false;
+  return (accelRawY);
+}
+
+//Returns Z accel of the global accel data
+int16_t SPARKFUN_LIS2DH12::getRawZ()
+{
+  if (zIsFresh == false)
+  {
+    getAccelData();
+  }
+  zIsFresh = false;
+  return (accelRawZ);
+}
+
+
 //Returns sensor temperature in C
 float SPARKFUN_LIS2DH12::getTemperature()
 {
@@ -138,8 +172,19 @@ float SPARKFUN_LIS2DH12::getTemperature()
     getTempData();
   }
   tempIsFresh = false;
-  //return (temperatureC);
-  return temp_16bit;
+  return (temperatureC);
+}
+
+
+//Returns sensor raw temperature in C
+int16_t SPARKFUN_LIS2DH12::getRawTemperature()
+{
+  if (tempIsFresh == false)
+  {
+    getTempData();
+  }
+  tempIsFresh = false;
+  return (temperatureRawC);
 }
 
 //Load global vars with latest accel data
@@ -155,6 +200,10 @@ void SPARKFUN_LIS2DH12::getAccelData()
   accelY = lis2dh12_from_fs2_hr_to_mg(data_raw_acceleration.i16bit[1]);
   accelZ = lis2dh12_from_fs2_hr_to_mg(data_raw_acceleration.i16bit[2]);
 
+  accelRawX = data_raw_acceleration.i16bit[0];
+  accelRawY = data_raw_acceleration.i16bit[1];
+  accelRawZ = data_raw_acceleration.i16bit[2];
+
   xIsFresh = true;
   yIsFresh = true;
   zIsFresh = true;
@@ -168,8 +217,8 @@ void SPARKFUN_LIS2DH12::getTempData()
   axis1bit16_t data_raw_temperature;
   memset(data_raw_temperature.u8bit, 0x00, sizeof(int16_t));
   lis2dh12_temperature_raw_get(&dev_ctx, data_raw_temperature.u8bit);
-  //temperatureC = lis2dh12_from_lsb_hr_to_celsius(data_raw_temperature.i16bit);
-  temp_16bit = data_raw_temperature.i16bit;
+  temperatureC = lis2dh12_from_lsb_hr_to_celsius(data_raw_temperature.i16bit);
+  temperatureRawC = data_raw_temperature.i16bit;
 
   tempIsFresh = true;
 }

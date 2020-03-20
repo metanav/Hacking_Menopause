@@ -76,10 +76,16 @@ bool_t AppReadGyro(int16_t *pX, int16_t *pY, int16_t *pZ)
 
   while (lis2dh12.available() == false) ;
 
-  *pX = lis2dh12.getX();
-  *pY = lis2dh12.getY();
-  *pZ = lis2dh12.getZ();
+  *pX = lis2dh12.getRawX();
+  *pY = lis2dh12.getRawY();
+  *pZ = lis2dh12.getRawZ();
 
+  SERIAL_PORT.print(lis2dh12.getX());
+  SERIAL_PORT.print(", ");
+  SERIAL_PORT.print(lis2dh12.getY());
+  SERIAL_PORT.print(", ");
+  SERIAL_PORT.print(lis2dh12.getZ());
+  SERIAL_PORT.println("");
   return TRUE;
 }
 
@@ -89,7 +95,7 @@ bool_t AppReadTemp(int16_t *pTemp)
 {
   while (lis2dh12.available() == false) ;
 
-  *pTemp = lis2dh12.getTemperature();
-  SERIAL_PORT.println( ( ( (float)*pTemp / 64.0f ) / 4.0f ) + 25.0f);
+  *pTemp = lis2dh12.getRawTemperature();
+  SERIAL_PORT.println(lis2dh12.getTemperature());
   return TRUE;
 }
