@@ -1,6 +1,8 @@
 #include <Wire.h>
 #include "ble_api.h"
 #include "SparkFun_LIS2DH12.h"
+#include "tf_adc.h"
+
 #define ACCEL_ADDRESS 0x19
 #define APP_SENSOR_OVERRIDE
 //#define BLE_PERIPHERAL_NAME "Artemis BLE" // Up to 29 characters
@@ -22,26 +24,23 @@ void setup() {
     while (1);
   }
 
+  // Initialize ADC to read MEMS Mic input
+  initADC();
+  enableAdcInterrupts();
+  
   pinMode(LED_BUILTIN, OUTPUT);
   set_led_low();
 
-  //
   // Configure the peripheral's advertised name:
   //setAdvName(BLE_PERIPHERAL_NAME);
 
-  //
   // Boot the radio.
-  //
   HciDrvRadioBoot(0);
 
-  //
   // Initialize the main ExactLE stack.
-  //
   exactle_stack_init();
 
-  //
   // Start the "Sensor" profile.
-  //
   SensorStart();
 }
 
@@ -89,7 +88,6 @@ bool_t AppReadGyro(int16_t *pX, int16_t *pY, int16_t *pZ)
   return TRUE;
 }
 
-// this method overrides
 // ( ( (float)lsb / 64.0f ) / 4.0f ) + 25.0f;
 bool_t AppReadTemp(int16_t *pTemp)
 {
@@ -97,5 +95,13 @@ bool_t AppReadTemp(int16_t *pTemp)
 
   *pTemp = lis2dh12.getRawTemperature();
   SERIAL_PORT.println(lis2dh12.getTemperature());
+  return TRUE;
+}
+
+
+bool_t AppReadSound(int32_t *pSound)
+{
+  *pSound = audioSample;
+  SERIAL_PORT.println(audioSample);
   return TRUE;
 }

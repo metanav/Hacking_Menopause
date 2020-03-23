@@ -108,6 +108,20 @@ bool_t AppReadGyro(int16_t *pX, int16_t *pY, int16_t *pZ);
 /*************************************************************************************************/
 bool_t AppReadTemp(int16_t *pTemp);
 
+
+/*************************************************************************************************/
+/*!
+ *  \fn     AppReadSound
+ *
+ *  \brief  Read sound sensor.
+ *
+ *  \param  pSound     Storage for sound reading.
+ *
+ *  \return None.
+ */
+/*************************************************************************************************/
+bool_t AppReadSound(int32_t *pTemp);
+
 #ifdef __cplusplus
 };
 #endif

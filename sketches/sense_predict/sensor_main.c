@@ -41,6 +41,8 @@
 #include "svc_gyro.h"
 #include "temperature_api.h"
 #include "svc_temp.h"
+#include "sound_api.h"
+#include "svc_sound.h"
 
 /**************************************************************************************************
   Macros
@@ -51,7 +53,8 @@
 enum
 {
   SENSOR_GYRO_TIMER_IND = SENSOR_MSG_START,
-  SENSOR_TEMP_TIMER_IND
+  SENSOR_TEMP_TIMER_IND,
+  SENSOR_SOUND_TIMER_IND
 };
 
 /*! Advertising timer timeout */
@@ -144,6 +147,7 @@ enum
   APPS_MAIN_GYRO_DATA_CLIENT_CHR_CONFIG_CCC_IDX,
   APPS_MAIN_GYRO_TEMPDATA_CLIENT_CHR_CONFIG_CCC_IDX,
   APPS_MAIN_TEMP_DATA_CLIENT_CHR_CONFIG_CCC_IDX,
+  APPS_MAIN_SOUND_DATA_CLIENT_CHR_CONFIG_CCC_IDX,
   APPS_MAIN_NUM_CCC_IDX
 };
 
@@ -153,7 +157,8 @@ static const attsCccSet_t MainSensor_CccSet[APPS_MAIN_NUM_CCC_IDX] =
   /* cccd handle                           value range             security level */
   {GYRO_HANDLE_DATA_CLIENT_CHR_CONFIG,     ATT_CLIENT_CFG_NOTIFY,  DM_SEC_LEVEL_NONE},
   {GYRO_HANDLE_TEMPDATA_CLIENT_CHR_CONFIG, ATT_CLIENT_CFG_NOTIFY,  DM_SEC_LEVEL_NONE},
-  {TEMP_HANDLE_DATA_CLIENT_CHR_CONFIG,     ATT_CLIENT_CFG_NOTIFY,  DM_SEC_LEVEL_NONE}
+  {TEMP_HANDLE_DATA_CLIENT_CHR_CONFIG,     ATT_CLIENT_CFG_NOTIFY,  DM_SEC_LEVEL_NONE},
+  {SOUND_HANDLE_DATA_CLIENT_CHR_CONFIG,    ATT_CLIENT_CFG_NOTIFY,  DM_SEC_LEVEL_NONE}
 };
 
 /*************************************************************************************************/
@@ -235,6 +240,18 @@ static void sensorCccCback(attsCccEvt_t *pEvt)
       else
       {
         TempMeasStop();
+      }
+      break;
+    }
+    case APPS_MAIN_SOUND_DATA_CLIENT_CHR_CONFIG_CCC_IDX:
+    {
+      if (pEvt->value == ATT_CLIENT_CFG_NOTIFY)
+      {
+        SoundMeasStart();
+      }
+      else
+      {
+        SoundMeasStop();
       }
       break;
     }
@@ -389,6 +406,7 @@ static void sensorProcMsg(wsfMsgHdr_t *pMsg)
     {
       GyroMeasStart();
       TempMeasStart();
+      SoundMeasStart();
       uiEvent = APP_UI_CONN_OPEN;
       break;
     }
@@ -397,6 +415,7 @@ static void sensorProcMsg(wsfMsgHdr_t *pMsg)
     {
       GyroMeasStop();
       TempMeasStop();
+      SoundMeasStop();
       uiEvent = APP_UI_CONN_CLOSE;
       break;
     }
@@ -436,6 +455,20 @@ static void sensorProcMsg(wsfMsgHdr_t *pMsg)
         if (AppReadTemp(&temp))
         {
           TempMeasComplete(connId, temp);
+        }
+      }
+      break;
+    }
+
+    case SENSOR_SOUND_TIMER_IND:
+    {
+      dmConnId_t connId = AppConnIsOpen();
+      if (connId != DM_CONN_ID_NONE)
+      {
+        int32_t sound;
+        if (AppReadSound(&sound))
+        {
+          SoundMeasComplete(connId, sound);
         }
       }
       break;
@@ -589,7 +622,8 @@ void SensorStart(void)
   SvcDisAddGroup();
   GyroStart(sensorHandlerId, SENSOR_GYRO_TIMER_IND);
   TempStart(sensorHandlerId, SENSOR_TEMP_TIMER_IND);
-
+  SoundStart(sensorHandlerId, SENSOR_SOUND_TIMER_IND);
+  
   /* set up CCCD table and callback */
   AttsCccRegister(APPS_MAIN_NUM_CCC_IDX, (attsCccSet_t *) MainSensor_CccSet, sensorCccCback);
 
