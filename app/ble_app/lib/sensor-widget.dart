@@ -7,8 +7,9 @@ class Sensor extends StatelessWidget {
   final String label;
   final BluetoothCharacteristic readCharacteristic;
   final icon = {
-    'temperature': FaIcon(FontAwesomeIcons.thermometer, size: 100),
-    'accelerometer': FaIcon(FontAwesomeIcons.running, size: 100)
+    'temperature'   : FaIcon(FontAwesomeIcons.thermometer, size: 125),
+    'accelerometer' : FaIcon(FontAwesomeIcons.running, size: 125),
+    'soundlevel'    : FaIcon(FontAwesomeIcons.microphone, size: 125)
   };
 
   Sensor({Key key, @required this.label, @required this.readCharacteristic})
@@ -62,6 +63,12 @@ class Sensor extends StatelessWidget {
 
         widget = Text('X: $accelX Y: $accelY Z: $accelZ',
             style: TextStyle(fontSize: 24.0));
+        break;
+
+      case 'soundlevel':
+        int level = ((data[1] << 8) | (data[0] & 0xff)).toUnsigned(16);
+
+        widget = Text('$level', style: TextStyle(fontSize: 48.0));
         break;
     }
 

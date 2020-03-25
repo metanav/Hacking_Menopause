@@ -115,12 +115,12 @@ bool_t AppReadTemp(int16_t *pTemp);
  *
  *  \brief  Read sound sensor.
  *
- *  \param  pSound     Storage for sound reading.
+ *  \param  psoundLevel Storage for sound level reading in decibels.
  *
  *  \return None.
  */
 /*************************************************************************************************/
-bool_t AppReadSound(int32_t *pTemp);
+bool_t AppReadSound(int16_t *psoundLevel);
 
 #ifdef __cplusplus
 };

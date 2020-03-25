@@ -72,7 +72,8 @@ class Services extends StatefulWidget {
   final List<BluetoothService> services;
   final sensorServices = {
     '00003000-0000-1000-8000-00805f9b34fb': 'accelerometer',
-    '00003010-0000-1000-8000-00805f9b34fb': 'temperature'
+    '00003010-0000-1000-8000-00805f9b34fb': 'temperature',
+    '00003020-0000-1000-8000-00805f9b34fb': 'soundlevel',
   };
 
   final sensorCharacteristics = {
@@ -83,6 +84,10 @@ class Services extends StatefulWidget {
     'accelerometer': {
       'read'   : '00003001-0000-1000-8000-00805f9b34fb',
       'config' : '00003003-0000-1000-8000-00805f9b34fb'
+    },
+   'soundlevel': {
+      'read'   : '00003021-0000-1000-8000-00805f9b34fb',
+      'config' : '00003022-0000-1000-8000-00805f9b34fb'
     },
   };
 

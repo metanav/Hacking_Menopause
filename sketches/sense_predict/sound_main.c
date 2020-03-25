@@ -210,11 +210,11 @@ void SoundMeasStart(void)
  *  \return None.
  */
 /*************************************************************************************************/
-void SoundMeasComplete(dmConnId_t connId, int32_t sound)
+void SoundMeasComplete(dmConnId_t connId, int16_t soundLevel)
 {
   soundCb.measTimerStarted = FALSE;
 
-  uint8_t soundData[2] = {UINT32_TO_BYTES(sound)};
+  uint8_t soundData[2] = {UINT16_TO_BYTES(soundLevel)};
   AttsSetAttr(SOUND_HANDLE_DATA, sizeof(soundData), soundData);
   AttsHandleValueNtf(connId, SOUND_HANDLE_DATA, sizeof(soundData), soundData);
 

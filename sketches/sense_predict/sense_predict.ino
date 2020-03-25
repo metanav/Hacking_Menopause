@@ -1,7 +1,10 @@
 #include <Wire.h>
 #include "ble_api.h"
 #include "SparkFun_LIS2DH12.h"
-#include "adc.h"
+
+#define SAMPLES_COUNT 100
+#define OFFSET 7300
+#define MIC 29
 
 #define ACCEL_ADDRESS 0x19
 #define APP_SENSOR_OVERRIDE
@@ -26,8 +29,6 @@ void setup() {
     
   pinMode(LED_BUILTIN, OUTPUT);
   set_led_low();
-
-  init_audio();
 
   // Configure the peripheral's advertised name:
   //setAdvName(BLE_PERIPHERAL_NAME);
@@ -97,9 +98,18 @@ bool_t AppReadTemp(int16_t *pTemp)
 }
 
 
-bool_t AppReadSound(int32_t *pSound)
+bool_t AppReadSound(int16_t *pSoundLevel)
 {
-  *pSound = get_avg_readings();
-  SERIAL_PORT.println(*pSound);
+  unsigned long sumOfSquares = 0;
+
+  for (int i = 0; i < SAMPLES_COUNT; i++) {
+    int signal = (analogRead(MIC) - OFFSET);
+    signal *= signal;
+    sumOfSquares += signal;
+  }
+
+  *pSoundLevel = 20 * log10(sqrt(sumOfSquares / SAMPLES_COUNT));
+  SERIAL_PORT.println(*pSoundLevel);
+  
   return TRUE;
 }

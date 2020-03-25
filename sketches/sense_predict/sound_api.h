@@ -63,6 +63,6 @@ void SoundMeasStart(void);
  *  \return None.
  */
 /*************************************************************************************************/
-void SoundMeasComplete(dmConnId_t connId, int32_t sound);
+void SoundMeasComplete(dmConnId_t connId, int16_t sound);
 
 #endif /* SOUND_API_H */

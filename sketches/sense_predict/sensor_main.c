@@ -465,10 +465,10 @@ static void sensorProcMsg(wsfMsgHdr_t *pMsg)
       dmConnId_t connId = AppConnIsOpen();
       if (connId != DM_CONN_ID_NONE)
       {
-        int32_t sound;
-        if (AppReadSound(&sound))
+        int16_t soundLevel;
+        if (AppReadSound(&soundLevel))
         {
-          SoundMeasComplete(connId, sound);
+          SoundMeasComplete(connId, soundLevel);
         }
       }
       break;
