@@ -11,9 +11,10 @@ Please read the story here: https://www.hackster.io/naveenbskumar/no-pause-f1bcb
 
 ## Required Softwares and Libraries
 1. [Arduino IDE 1.8.12](https://www.arduino.cc/en/Main/Software)
-2. [TensorFlow 2.1](https://www.tensorflow.org/install)
-3. [mlx90640-library](https://github.com/melexis/mlx90640-library) 
-4. [Jupyter](https://jupyter.org/install)
+2. [TensorFlow 2.1](https://www.tensorflow.org/install
+3. [Jupyter](https://jupyter.org/install)
+4. [mlx90640 thermal camera library](https://github.com/melexis/mlx90640-library) 
+5. [Infrared remote library](https://github.com/crankyoldgit/IRremoteESP8266) 
 
 Please see the links above for downloading and installation instructions.
 
