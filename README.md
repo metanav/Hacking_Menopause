@@ -2,7 +2,7 @@ This repository contains the code for Hacking Menopause contest at hackster.io.
 Please read the story here: https://www.hackster.io/naveenbskumar/no-pause-f1bcbf
 
 
-![ATOM Matrix with Thermal Imaging Camera](https://hackster.imgix.net/uploads/attachments/1119627/_vk6o5mjK8D.blob?auto=compress%2Cformat&w=900&h=675&fit=min)
+![ATOM Matrix with Thermal Imaging Camera](https://hackster.imgix.net/uploads/attachments/1119627/_vk6o5mjK8D.blob?auto=compress%2Cformat&w=450&h=337&fit=min)
 
 ## Required Hardware Components
 1. [M5Stack ATOM Matrix ESP32 Development Kit](https://m5stack.com/products/atom-matrix-esp32-development-kit)
