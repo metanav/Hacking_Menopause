@@ -14,3 +14,9 @@ Please read the story here: https://www.hackster.io/naveenbskumar/no-pause-f1bcb
 2. [TensorFlow 2.1](https://www.tensorflow.org/install)
 3. [mlx90640-library](https://github.com/melexis/mlx90640-library) 
 4. [Jupyter](https://jupyter.org/install)
+
+Please see the links above for downloading and installation instructions.
+
+Please see the instructions [here](https://wiki.seeedstudio.com/Wio-Terminal-Getting-Started/) to setup Seeed Wio Terminal board with Arduino IDE.
+
+Please see the instructions [here](https://github.com/espressif/arduino-esp32/blob/master/docs/arduino-ide/boards_manager.md) to setup M5Stack ATOM Matrix ESP32 Development Kit with Arduino IDE.
