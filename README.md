@@ -1,3 +1,4 @@
+## No Pause
 This repository contains the code for Hacking Menopause contest at hackster.io.
 Please read the story here: https://www.hackster.io/naveenbskumar/no-pause-f1bcbf
 
